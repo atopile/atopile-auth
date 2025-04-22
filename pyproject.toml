@@ -1,6 +1,6 @@
 [project]
 name = "atopile-auth"
-description = "A package for making CLI "
+description = "A package to help manage authentication for atopile"
 readme = "README.md"
 requires-python = ">=3.13"
 dynamic = ["version"]
