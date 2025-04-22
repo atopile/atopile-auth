@@ -1,22 +1,19 @@
 import json
-import platformdirs
+import os
 from gotrue import SyncSupportedStorage
 from pathlib import Path
 
 
 class SyncDataDirStorage(SyncSupportedStorage):
-    def __init__(self, application_name: str):
-        config_dir = Path(
-            platformdirs.user_data_dir(application_name, ensure_exists=True)
-        )
-        self._cache_file = config_dir / "auth.json"
+    def __init__(self, filepath: os.PathLike):
+        self.filepath = Path(filepath)
 
         self._cache: dict[str, str] | None = None
 
     def _get_cache(self) -> dict[str, str]:
         if self._cache is None:
             try:
-                with open(self._cache_file, "r") as f:
+                with open(self.filepath, "r") as f:
                     self._cache = json.load(f)
             except (FileNotFoundError, json.decoder.JSONDecodeError):
                 self._cache = {}
@@ -24,7 +21,7 @@ class SyncDataDirStorage(SyncSupportedStorage):
         return self._cache
 
     def _save_cache(self) -> None:
-        with open(self._cache_file, "w") as f:
+        with open(self.filepath, "w") as f:
             json.dump(self._cache, f)
 
     def get_item(self, key: str) -> str | None:
