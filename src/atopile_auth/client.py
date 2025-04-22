@@ -5,11 +5,9 @@ import supabase
 from atopile_auth.oauth_callback_server import get_auth_code_via_server
 
 
-def login(
+def oauth_login(
     client: supabase.Client,
-    oauth: str | None = None,
-    email: str | None = None,
-    password: str | None = None,
+    provider: str,
     oauth_timeout: int = 30,
     oauth_callback_port: int = 8234,
 ) -> None:
@@ -17,23 +15,16 @@ def login(
 
     auth = client.auth
 
-    if oauth:
-        oauth_response = auth.sign_in_with_oauth(
-            {
-                "provider": oauth,
-                "options": {
-                    "redirect_to": f"http://localhost:{oauth_callback_port}/auth/callback"
-                },
-            }
-        )
-        url = oauth_response.url
-        webbrowser.open(url)
+    oauth_response = auth.sign_in_with_oauth(
+        {
+            "provider": provider,
+            "options": {
+                "redirect_to": f"http://localhost:{oauth_callback_port}/auth/callback"
+            },
+        }
+    )
+    url = oauth_response.url
+    webbrowser.open(url)
 
-        code = get_auth_code_via_server(oauth_callback_port, timeout=oauth_timeout)
-        client.auth.exchange_code_for_session({"auth_code": code})
-
-    elif email and password:
-        auth.sign_in_with_password({"email": email, "password": password})
-
-    else:
-        raise ValueError("No login method provided")
+    code = get_auth_code_via_server(oauth_callback_port, timeout=oauth_timeout)
+    client.auth.exchange_code_for_session({"auth_code": code})
