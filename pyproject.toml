@@ -1,0 +1,18 @@
+[project]
+name = "auth-sandbox"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "fastapi>=0.115.12",
+    "httpx>=0.28.1",
+    "platformdirs>=4.3.7",
+    "supabase>=2.15.0",
+    "typer>=0.15.2",
+]
+
+[dependency-groups]
+dev = [
+    "fastapi[standard]>=0.115.12",
+]
