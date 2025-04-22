@@ -1,7 +1,9 @@
 import json
 import os
+from pathlib import Path
 
 import httpx
+import platformdirs
 import supabase
 import typer
 from supabase.lib.client_options import ClientOptions
@@ -13,7 +15,12 @@ from atopile_auth.data_dir_storage import SyncDataDirStorage
 client = supabase.create_client(
     supabase_url=os.getenv("SUPABASE_URL"),
     supabase_key=os.getenv("SUPABASE_KEY"),
-    options=ClientOptions(storage=SyncDataDirStorage("atopile")),
+    options=ClientOptions(
+        storage=SyncDataDirStorage(
+            Path(platformdirs.user_data_dir("atopile", ensure_exists=True))
+            / "auth.json"
+        )
+    ),
 )
 
 app = typer.Typer()
