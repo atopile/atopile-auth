@@ -11,25 +11,25 @@ def login(
     email: str | None = None,
     password: str | None = None,
     oauth_timeout: int = 30,
+    oauth_callback_port: int = 8234,
 ) -> None:
     """Login, or raise an exception."""
 
     auth = client.auth
 
     if oauth:
-        callback_port = 8234
         oauth_response = auth.sign_in_with_oauth(
             {
                 "provider": oauth,
                 "options": {
-                    "redirect_to": f"http://localhost:{callback_port}/auth/callback"
+                    "redirect_to": f"http://localhost:{oauth_callback_port}/auth/callback"
                 },
             }
         )
         url = oauth_response.url
         webbrowser.open(url)
 
-        code = get_auth_code_via_server(callback_port, timeout=oauth_timeout)
+        code = get_auth_code_via_server(oauth_callback_port, timeout=oauth_timeout)
         client.auth.exchange_code_for_session({"auth_code": code})
 
     elif email and password:
