@@ -32,7 +32,14 @@ def login(
     email: str | None = None,
     password: str | None = None,
 ):
-    atopile_auth.client.login(client, oauth=oauth, email=email, password=password)
+    if oauth:
+        atopile_auth.client.oauth_login(client, provider=oauth)
+    elif email and password:
+        client.auth.sign_in_with_password({"email": email, "password": password})
+    else:
+        print("No login method provided")
+        raise typer.Abort()
+
     print("Logged in.")
 
 
