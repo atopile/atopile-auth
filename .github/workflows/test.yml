@@ -19,3 +19,8 @@ jobs:
       - uses: astral-sh/setup-uv@v5
 
       - run: uv run --with pytest-github-actions-annotate-failures pytest
+        env:
+          SUPABASE_URL: ${{ vars.SUPABASE_URL }}
+          SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+          TEST_EMAIL: ${{ secrets.TEST_EMAIL }}
+          TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
