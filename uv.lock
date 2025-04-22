@@ -79,6 +79,39 @@ wheels = [
 ]
 
 [[package]]
+name = "atopile-auth"
+version = "0.1.0"
+source = { editable = "." }
+dependencies = [
+    { name = "supabase" },
+]
+
+[package.dev-dependencies]
+client = [
+    { name = "platformdirs" },
+]
+dev = [
+    { name = "fastapi", extra = ["standard"] },
+    { name = "httpx" },
+    { name = "typer" },
+]
+server = [
+    { name = "fastapi" },
+]
+
+[package.metadata]
+requires-dist = [{ name = "supabase", specifier = ">=2.15.0" }]
+
+[package.metadata.requires-dev]
+client = [{ name = "platformdirs", specifier = ">=4.3.7" }]
+dev = [
+    { name = "fastapi", extras = ["standard"], specifier = ">=0.115.12" },
+    { name = "httpx", specifier = ">=0.28.1" },
+    { name = "typer", specifier = ">=0.15.2" },
+]
+server = [{ name = "fastapi", specifier = ">=0.115.12" }]
+
+[[package]]
 name = "attrs"
 version = "25.3.0"
 source = { registry = "https://pypi.org/simple" }
@@ -86,35 +119,6 @@ sdist = { url = "https://files.pythonhosted.org/packages/5a/b0/1367933a8532ee6ff
 wheels = [
     { url = "https://files.pythonhosted.org/packages/77/06/bb80f5f86020c4551da315d78b3ab75e8228f89f0162f2c3a819e407941a/attrs-25.3.0-py3-none-any.whl", hash = "sha256:427318ce031701fea540783410126f03899a97ffc6f61596ad581ac2e40e3bc3", size = 63815 },
 ]
-
-[[package]]
-name = "auth-sandbox"
-version = "0.1.0"
-source = { virtual = "." }
-dependencies = [
-    { name = "fastapi" },
-    { name = "httpx" },
-    { name = "platformdirs" },
-    { name = "supabase" },
-    { name = "typer" },
-]
-
-[package.dev-dependencies]
-dev = [
-    { name = "fastapi", extra = ["standard"] },
-]
-
-[package.metadata]
-requires-dist = [
-    { name = "fastapi", specifier = ">=0.115.12" },
-    { name = "httpx", specifier = ">=0.28.1" },
-    { name = "platformdirs", specifier = ">=4.3.7" },
-    { name = "supabase", specifier = ">=2.15.0" },
-    { name = "typer", specifier = ">=0.15.2" },
-]
-
-[package.metadata.requires-dev]
-dev = [{ name = "fastapi", extras = ["standard"], specifier = ">=0.115.12" }]
 
 [[package]]
 name = "certifi"
