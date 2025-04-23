@@ -1,9 +1,9 @@
-import gotrue
 import gotrue.errors
 import supabase
 import supabase.client
 from fastapi import HTTPException, Request
 from fastapi.security import HTTPBearer
+from gotrue import ClaimsResponse
 
 
 class SupabaseBearer(HTTPBearer):
@@ -18,7 +18,7 @@ class SupabaseBearer(HTTPBearer):
         self.client = supabase_client
         self.scheme_name = self.__class__.__name__
 
-    async def __call__(self, request: Request) -> gotrue.ClaimsResponse:
+    async def __call__(self, request: Request) -> ClaimsResponse | None:
         credentials = await super().__call__(request)
         if not credentials.scheme == "Bearer":
             if self.auto_error:
