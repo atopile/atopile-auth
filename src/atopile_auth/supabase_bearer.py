@@ -21,9 +21,12 @@ class SupabaseBearer(HTTPBearer):
     async def __call__(self, request: Request) -> gotrue.ClaimsResponse:
         credentials = await super().__call__(request)
         if not credentials.scheme == "Bearer":
-            raise HTTPException(
-                status_code=403, detail="Invalid authentication scheme."
-            )
+            if self.auto_error:
+                raise HTTPException(
+                    status_code=403, detail="Invalid authentication scheme."
+                )
+            else:
+                return None
 
         try:
             claims = self.client.auth.get_claims(credentials.credentials)
